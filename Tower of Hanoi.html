@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower Of Hanoi</title>
+    <style>
+        body{
+            background-color:rgb(255, 240, 211);
+        }
+        .container{
+            display: block;
+            margin-left : 10%;
+            margin-top: 2%;
+        } 
+        .towers{
+            width: 30%;
+            border: 2px solid black;
+            height: 400px;
+            float:left;
+            border-collapse: collapse;
+            margin-left: 2px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content:flex-end;
+            justify-content: flex-end;
+        }
+        #towerNameContainer{
+            
+            clear: left;
+            margin-left: 10%;
+        }
+        .towerName{
+            width: 30%;
+            height:50px;
+            border: 2px solid black;
+            float:left;
+            border-collapse: collapse;
+            display: flex;
+            align-items: center;
+            align-content:center;
+            justify-content: center;
+            margin-top: 5px;
+            margin-left: 2px;
+            margin-bottom: 10px;
+            
+        }
+        .moveConatainer{
+            width: 50%;
+            margin-left : 30%;
+        } 
+        .tile{
+            display: flex;
+            height: 15%;
+            width: 30%;
+            justify-content: center;
+            align-items: center;
+            background-color: lightskyblue;
+        }
+        .moves{
+            margin-top: 2px;
+        }
+        .actionButtons{
+            width: 200px;
+            height: 50px;
+        }
+        #ReloadGame{
+            float: left;
+            width: 300px;
+            height : 40px;
+            margin-left: 2px;
+            margin-right: 2px;
+            margin-top : 20px;
+        }
+        #checkResult{
+            float: left;
+            width: 300px;
+            height : 40px;
+            
+            margin-left: 2px;
+            margin-right: 2px;
+            margin-top : 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class = "container" id = "buttonContainer">
+        <div class = "towers" id = "tower1">
+            <button id = "btn2" class = "tile">2</button>
+            <button id = "btn4" class = "tile">4</button>
+            <button id = "btn3" class = "tile">3</button>
+            <button id = "btn1" class = "tile">1</button>
+        </div>
+
+        <div class = "towers" id = "tower2">
+
+        </div>
+
+        <div class = "towers" id = "tower3">
+
+        </div>
+    </div>
+
+    <div id = "towerNameContainer">
+        <div class = "towerName">
+            Tower 1
+        </div>
+        <div class = "towerName">
+            Tower 2
+        </div>
+        <div class = "towerName">
+            Tower 3
+        </div>
+    </div>
+
+    <div class = "moveConatainer">
+        <div class = "moves">
+            <button onclick="swap_1to2()" class = "actionButtons">1->2</button>
+            <button onclick="swap_2to1()" class = "actionButtons">2->1</button>
+            <button onclick="swap_3to1()" class = "actionButtons">3->1</button>
+        </div>
+        <div class = "moves">
+            <button onclick="swap_1to3()" class = "actionButtons">1->3</button>
+            <button onclick="swap_2to3()" class = "actionButtons">2->3</button>
+            <button onclick="swap_3to2()" class = "actionButtons">3->2</button>     
+        </div>
+        <div id = "startGameDiv">
+            <button id = "ReloadGame" onclick="reloadGame()">Start New Game</button>
+        </div>
+        <div id = "checkResultDiv">
+            <button id = "checkResult" onclick="checkResult()">Check Result</button>
+        </div>
+    </div>
+
+    <script>
+
+        function shuffle(array) {
+        array.sort(() => Math.random() - 0.5);
+        }
+
+        function removeAllChildNodes(parent) {
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+        }
+
+        function checkResult(){
+            let container = document.getElementById("buttonContainer");
+            console.log(container);
+            
+            for(let i =0; i < container.children.length;i++){
+                let flag = 1;
+                if(container.children[i].children.length==4){
+                    //console.log(container.children[i].children[0].id);
+                    if(container.children[i].children[0].id != "btn1"){
+                        flag = 0;
+                        //console.log(container.children[i].children[0].id)
+                    }
+                        
+                    else if(container.children[i].children[1].id != "btn2"){
+                        flag = 0;
+                        //console.log(container.children[i].children[1].id)
+                    }
+                    else if(container.children[i].children[2].id != "btn3"){
+                        flag = 0;
+                       // console.log(container.children[i].children[2].id)
+                    }
+                    else if(container.children[i].children[3].id != "btn4"){
+                        flag = 0;
+                        //console.log(container.children[i].children[3].id)
+                    }
+                    if(flag == 1 ){
+
+                        //window.open("https://www.w3schools.com");
+
+                        alert("You won!!");
+                        
+
+                        break;
+                    }
+                    else{
+                        window.open("https://en.wiktionary.org/wiki/loser");
+                        //window.open("http://www.facebook.com/muktadul.islam.1690");
+                        alert("You lose!!");
+                        
+                    }
+                }
+            }
+
+                
+
+        }
+
+        function reloadGame(){
+            let tower1 = document.getElementById("tower1");
+            let tower2 = document.getElementById("tower2");
+            let tower3 = document.getElementById("tower3");
+            
+            const newTower = document.createElement("div");
+
+            let btn1 = document.getElementById("btn1");
+            let btn2 = document.getElementById("btn2");
+            let btn3 = document.getElementById("btn3");
+            let btn4 = document.getElementById("btn4");
+
+            newTower.appendChild(btn1);
+            newTower.appendChild(btn2);
+            newTower.appendChild(btn3);
+            newTower.appendChild(btn4);
+
+            removeAllChildNodes(tower1);
+            removeAllChildNodes(tower2);
+            removeAllChildNodes(tower3);
+
+            let index = [0,1,2,3];
+
+            shuffle(index);
+
+            // for(var i = 0; i<4;i++){
+            //     console.log(index[i]);
+            // }
+
+            console.log(newTower.childNodes);
+            for(var i = 0; i < 4 ; i++){
+                //console.log(newTower.children[index[i]]);
+                    // console.log(newTower.children[index[i]]);
+                    let btn = newTower.children[index[i]].cloneNode();
+                    // console.log(btn);
+                    // console.log(newTower.children.length);
+                    let num = index[i]+1;
+                    let idx = String("btn"+num);
+                    btn.innerText = num;
+                    
+
+        
+                    // btn["id"]=idx;
+                    // console.log(btn.id);
+                    
+                    //console.log("tower1 child : " + btn);
+                    tower1.appendChild(btn);   
+            }
+
+
+        }
+
+        function printNum(){
+            let i = 10;
+	        while(i--){
+              let y = Math.floor(Math.random() * 10);
+              console.log(y);
+            }
+        }
+        
+        function swap_1to2(){
+            tower1 = document.getElementById("tower1");
+            btn1 = tower1.firstChild;
+            btn1.remove();
+
+            tower2 = document.getElementById("tower2");
+            btn2 = tower2.firstChild;
+            tower2.insertBefore(btn1,btn2);
+            //checkResult();
+        }
+
+        function swap_2to3(){
+            let tower1 = document.getElementById("tower2");
+            let btn1 = tower1.firstChild;
+            btn1.remove();
+
+            tower2 = document.getElementById("tower3");
+            btn2 = tower2.firstChild;
+            tower2.insertBefore(btn1,btn2);
+            //checkResult();
+        }
+
+        function swap_3to1(){
+            let tower1 = document.getElementById("tower3");
+            let btn1 = tower1.firstChild;
+            btn1.remove();
+
+            tower2 = document.getElementById("tower1");
+            btn2 = tower2.firstChild;
+            tower2.insertBefore(btn1,btn2);
+            //checkResult();
+        }
+
+        function swap_3to2(){
+            let tower1 = document.getElementById("tower3");
+            let btn1 = tower1.firstChild;
+            btn1.remove();
+
+            tower2 = document.getElementById("tower2");
+            btn2 = tower2.firstChild;
+            tower2.insertBefore(btn1,btn2);
+            //checkResult();
+        }
+
+        function swap_2to1(){
+            let tower1 = document.getElementById("tower2");
+            let btn1 = tower1.firstChild;
+            btn1.remove();
+
+            tower2 = document.getElementById("tower1");
+            btn2 = tower2.firstChild;
+            tower2.insertBefore(btn1,btn2);
+            //checkResult();
+        }
+
+        function swap_1to3(){
+            let tower1 = document.getElementById("tower1");
+            let btn1 = tower1.firstChild;
+            btn1.remove();
+
+            tower2 = document.getElementById("tower3");
+            btn2 = tower2.firstChild;
+            tower2.insertBefore(btn1,btn2);
+            //checkResult();
+        }
+
+
+    </script>
+</body>
+</html>
